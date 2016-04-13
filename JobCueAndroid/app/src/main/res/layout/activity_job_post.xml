@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="#D3D3D3"
+    tools:context="com.example.abusufian.jobcueandroid.JobPost">
+
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+
+
+
+
+        >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:gravity="center">
+
+        <TextView
+            android:id="@+id/second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:capitalize="characters"
+            android:text="Details"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textColorHighlight="@android:color/primary_text_dark"
+            android:textSize="30dp"/>
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip"
+            android:background="@drawable/round_corner"
+            android:layout_marginBottom="10dp"
+            android:hint="Job Title"
+            />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip"
+            android:background="@drawable/round_corner"
+            android:layout_marginBottom="10dp"
+            android:hint="Salary"
+            />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1.0"
+            android:layout_marginBottom="10dp"
+            >
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:padding="5dip"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/round_corner"
+                android:layout_marginBottom="10dp"
+                android:hint="City"
+                />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:layout_marginLeft="5dp"
+                android:padding="5dp"
+                android:background="@drawable/round_corner"
+                android:hint="State"
+                />
+
+
+
+        </LinearLayout>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            android:background="@drawable/round_corner"
+            android:hint="Contact Number"
+            />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_weight=".5"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_corner"
+            android:hint="Description"
+
+            />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:id="@+id/Job_post">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/Job_post_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.google.android.gms.maps.SupportMapFragment" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

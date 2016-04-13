@@ -38,10 +38,9 @@
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:text="Post a Job"
-        android:id="@+id/button2"
+        android:id="@+id/post_job"
         android:background="@android:color/darker_gray"
         android:textColor="@android:color/black"
-        android:layout_alignTop="@+id/button"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="35dp" />
 

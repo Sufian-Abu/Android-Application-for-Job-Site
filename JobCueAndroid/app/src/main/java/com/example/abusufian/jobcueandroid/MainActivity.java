@@ -38,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        Button post=(Button)findViewById(R.id.post_job);
+        final Intent i1=new Intent(this,JobPost.class);
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(i1);
+            }
+        });
+
     }
 
     @Override
