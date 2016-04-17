@@ -63,6 +63,12 @@
         </activity>
         <activity android:name=".JobPost" >
         </activity>
+        <activity android:name=".ProfileUpdate" >
+        </activity>
+        <activity android:name=".UserProfile" >
+        </activity>
+        <activity android:name=".JobDetails" >
+        </activity>
     </application>
 
 </manifest>

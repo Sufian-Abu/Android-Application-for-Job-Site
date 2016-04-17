@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.abusufian.jobcueandroid.ProfileUpdate"
+    android:background="@color/common_plus_signin_btn_text_dark_disabled"
+    android:orientation="vertical"
+    >
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Profile"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:textSize="@dimen/fab_margin"
+        android:layout_marginBottom="10dp"
+        />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"
+        >
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:background="@drawable/round_corner"
+            android:layout_marginBottom="10dp"
+            android:hint="First Name"
+            android:layout_marginRight="30dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:background="@drawable/round_corner"
+            android:layout_marginBottom="10dp"
+            android:hint="Last Name"
+            />
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="50dp"
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Image"
+            android:layout_marginRight="60dp"
+            />
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Browse"
+           android:background="@color/colorAccent"
+           android:layout_marginBottom="20dp"
+           />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:background="@drawable/round_corner"
+            android:layout_marginBottom="10dp"
+            android:hint="Contact Number"
+            />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:background="@drawable/round_corner"
+            android:layout_marginBottom="10dp"
+            android:hint="Address"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="1.0"
+        >
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:background="@drawable/round_corner"
+            android:layout_marginBottom="10dp"
+            android:hint="City"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.4"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:background="@drawable/round_corner"
+            android:layout_marginBottom="10dp"
+            android:hint="State"
+            android:layout_weight="0.4"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_weight=".5"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/round_corner"
+            android:hint="Description"
+            />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_corner"
+            android:text="Update"
+
+
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+</LinearLayout>

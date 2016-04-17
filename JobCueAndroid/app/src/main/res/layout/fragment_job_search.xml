@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/Job_map">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,13 +29,47 @@
         android:layout_height="wrap_content"
         android:id="@+id/Job_type"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
           <TextView
               android:id="@+id/section_label"
               android:layout_width="wrap_content"
               android:text="Job type"
               android:layout_height="wrap_content" />
+
+       <LinearLayout
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+
+           <LinearLayout
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_weight="1.0"
+               >
+               <CheckBox
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0.1"
+                   />
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Walmart"
+                   android:layout_weight="0.6"/>
+               <Button
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Details > "
+                   android:layout_weight="0.3"/>
+
+
+           </LinearLayout>
+
+       </LinearLayout>
+
 
     </LinearLayout>
 
