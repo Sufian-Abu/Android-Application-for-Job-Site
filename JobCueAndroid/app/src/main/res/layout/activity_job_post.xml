@@ -48,6 +48,7 @@
             android:padding="5dip"
             android:background="@drawable/round_corner"
             android:layout_marginBottom="10dp"
+            android:id="@+id/jobtitle"
             android:hint="Job Title"
             />
         <EditText
@@ -56,6 +57,7 @@
             android:padding="5dip"
             android:background="@drawable/round_corner"
             android:layout_marginBottom="10dp"
+            android:id="@+id/salary"
             android:hint="Salary"
             />
 
@@ -74,6 +76,7 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/round_corner"
                 android:layout_marginBottom="10dp"
+                android:id="@+id/city"
                 android:hint="City"
                 />
             <EditText
@@ -83,6 +86,7 @@
                 android:layout_marginLeft="5dp"
                 android:padding="5dp"
                 android:background="@drawable/round_corner"
+                android:id="@+id/state"
                 android:hint="State"
                 />
 
@@ -97,6 +101,7 @@
             android:layout_marginBottom="10dp"
             android:padding="5dp"
             android:background="@drawable/round_corner"
+            android:id="@+id/contact"
             android:hint="Contact Number"
             />
         <EditText
@@ -107,6 +112,7 @@
             android:padding="5dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_corner"
+            android:id="@+id/description"
             android:hint="Description"
 
 
@@ -131,6 +137,8 @@
                 android:layout_height="wrap_content"
                 android:text="POST"
                 android:background="#abcdef"
+                android:onClick="JobPost"
+                android:id="@+id/jpost"
                 />
 
 
