@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.example.abusufian.jobcueandroid"
@@ -25,4 +26,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.google.android.gms:play-services-maps:8.4.0'
+    compile group: 'cz.msebera.android' , name: 'httpclient', version: '4.4.1.1'
 }

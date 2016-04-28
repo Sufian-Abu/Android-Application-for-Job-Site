@@ -1,12 +1,18 @@
 package com.example.abusufian.jobcueandroid;
 
 import android.app.ActionBar;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,11 +27,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class JobSearch extends AppCompatActivity implements
         ActionBar.OnNavigationListener {
@@ -63,37 +73,6 @@ public class JobSearch extends AppCompatActivity implements
 
 
 
-        //TODO TRYING TO ADD DropDown from here
-//        // Action Bar
-//
-//        // Adapter
-//        SpinnerAdapter adapter =
-//                ArrayAdapter.createFromResource(this, R.array.actions,
-//                        android.R.layout.simple_spinner_dropdown_item);
-//        // Callback
-//        ActionBar.OnNavigationListener callback = new ActionBar.OnNavigationListener() {
-//
-//            String[] items = getResources().getStringArray(R.array.actions); // List items from res
-//
-//            @Override
-//            public boolean onNavigationItemSelected(int position, long id) {
-//
-//                // Do stuff when navigation item is selected
-//
-//                Log.d("NavigationItemSelected", items[position]); // Debug
-//
-//                return true;
-//
-//            }
-//
-//        };
-//
-//        ActionBar actions = getActionBar();
-//        actions.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST); //null pointer exception
-//        actions.setDisplayShowTitleEnabled(false);
-//        actions.setListNavigationCallbacks(adapter, callback);
-//
-//
 
         //TODO END
 
@@ -200,7 +179,7 @@ public class JobSearch extends AppCompatActivity implements
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_job_search, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            Button btn = (Button) rootView.findViewById(R.id.section_label);
 
             LinearLayout map = (LinearLayout)rootView.findViewById(R.id.Job_map);
             LinearLayout jobType = (LinearLayout)rootView.findViewById(R.id.Job_type);
@@ -215,6 +194,38 @@ public class JobSearch extends AppCompatActivity implements
             {
                 map.setVisibility(View.GONE);
                 jobType.setVisibility(View.VISIBLE);
+
+                btn.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        client.get("http://jobcue.herokuapp.com/jobs/", new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(JSONObject response) {
+                                super.onSuccess(response);
+
+
+                                Toast.makeText(getContext(), response.toString(), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Throwable e, JSONArray errorResponse) {
+                                super.onFailure(statusCode, e, errorResponse);
+                            }
+                        });
+
+
+
+                    }
+                });
+
+
+
+
+
+
+
+
             }
 
             return rootView;

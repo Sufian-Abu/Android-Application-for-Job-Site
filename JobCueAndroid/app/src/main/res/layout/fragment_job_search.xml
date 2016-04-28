@@ -31,10 +31,11 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-          <TextView
+          <Button
               android:id="@+id/section_label"
               android:layout_width="wrap_content"
               android:text="Job type"
+
               android:layout_height="wrap_content" />
 
        <LinearLayout

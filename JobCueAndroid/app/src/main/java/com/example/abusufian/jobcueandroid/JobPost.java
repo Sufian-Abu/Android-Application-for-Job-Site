@@ -1,8 +1,12 @@
 package com.example.abusufian.jobcueandroid;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,14 +15,50 @@ import android.widget.EditText;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.apache.http.client.HttpClient;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class JobPost extends AppCompatActivity {
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.Arrays;
+
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.os.Bundle;
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+
+public class JobPost extends AppCompatActivity implements LocationListener {
+
+    LocationManager locationManager;
+    String provider;
 
 
     EditText jtile;
@@ -27,22 +67,84 @@ public class JobPost extends AppCompatActivity {
     EditText jstate;
     EditText jcontact;
     EditText jdescription;
-    Button   jobpost;
+    Button jobpost;
     TextView errorMsg;
+    private double currentLatitude;
+    private double currentLongitude;
+    private static AsyncHttpClient client = new AsyncHttpClient();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_post);
-        jtile=(EditText)findViewById(R.id.jobtitle);
-        jsalary=(EditText)findViewById(R.id.salary);
-        jcity=(EditText)findViewById(R.id.city);
-        jstate=(EditText)findViewById(R.id.state);
-        jcontact=(EditText)findViewById(R.id.contact);
-        jdescription=(EditText)findViewById(R.id.description);
-        jobpost=(Button)findViewById(R.id.jpost);
+        jtile = (EditText) findViewById(R.id.jobtitle);
+        jsalary = (EditText) findViewById(R.id.salary);
+        jcity = (EditText) findViewById(R.id.city);
+        jstate = (EditText) findViewById(R.id.state);
+        jcontact = (EditText) findViewById(R.id.contact);
+        jdescription = (EditText) findViewById(R.id.description);
+        jobpost = (Button) findViewById(R.id.jpost);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // Creating an empty criteria object
+        Criteria criteria = new Criteria();
+
+        // Getting the name of the provider that meets the criteria
+        provider = locationManager.getBestProvider(criteria, false);
+
+        if (provider != null && !provider.equals("")) {
+
+            // Get the location from the given provider
+            Location location = locationManager.getLastKnownLocation(provider);
+
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+            locationManager.requestLocationUpdates(provider, 20000, 1, this);
+
+            if(location!=null)
+                onLocationChanged(location);
+            else
+                Toast.makeText(getBaseContext(), "Location can't be retrieved", Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(getBaseContext(), "No Provider Found", Toast.LENGTH_SHORT).show();
+        }
 
 
 
+
+
+    }
+
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        currentLatitude=location.getLatitude();
+        currentLongitude=location.getLongitude();
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
     }
 
 
@@ -52,72 +154,59 @@ public class JobPost extends AppCompatActivity {
         String jobt=jtile.getText().toString();
         String jdes=jdescription.getText().toString();
 
-        RequestParams params = new RequestParams();
-        params.put("subject",jobt);
-        params.put("description",jdes);
-        params.put("lat","1");
-        params.put("lon","2");
-        invokeWS(params);
 
+        JSONObject sendData=new JSONObject();
+        try {
+            sendData.put("subject",jobt);
+            sendData.put("description",jdes);
+
+            JSONObject locationoObj=new JSONObject();
+            locationoObj.put("lat",currentLatitude);
+            locationoObj.put("lon",currentLongitude);
+
+            sendData.put("location",locationoObj);
+
+            String[] tags = {"tag1", "tag2"};
+            JSONArray tagsJson = new JSONArray(Arrays.asList(tags));
+            sendData.put("tags",tagsJson);
+            invokeWS(sendData);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void invokeWS(RequestParams params){
+    public void invokeWS(JSONObject params) throws UnsupportedEncodingException {
+
+
 
         Toast.makeText(getApplicationContext(), "I am here", Toast.LENGTH_LONG).show();
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NoYW9uLmF1dGgwLmNvbS8iLCJzdWIiOiJ0d2l0dGVyfDE5NjA4Njc5MCIsImF1ZCI6IlhEdnBjNXlSVzJxaFRyUkhXY0UwcTAyRnEza0xJbkNmIiwiZXhwIjoxNDYxNTM4MDgzLCJpYXQiOjE0NjE1MDIwODN9.zPHBb07MJEHrJFbb8ur3w6KqgWj_McFAeYOEYwKP4Tk");
+        client.addHeader("Authorization", "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NoYW9uLmF1dGgwLmNvbS8iLCJzdWIiOiJ0d2l0dGVyfDE5NjA4Njc5MCIsImF1ZCI6IlhEdnBjNXlSVzJxaFRyUkhXY0UwcTAyRnEza0xJbkNmIiwiZXhwIjoxNDYxNjQxMjQzLCJpYXQiOjE0NjE2MDUyNDN9.6ZKIchXKW4g7LfWzZx89MhKN2WXhS9GnuptfUk5RtI0");
 
-        client.get("http://jobcue.herokuapp.com/jobs/", params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
+        ByteArrayEntity entity = new ByteArrayEntity(params.toString().getBytes("UTF-8"));
 
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if (obj.getBoolean("OK")) {
-                        // Set Default Values for Edit View controls
-                        setDefaultValues();
-                        // Display successfully registered message using Toast
-                        Toast.makeText(getApplicationContext(), "You are successfully registered!", Toast.LENGTH_LONG).show();
-                    }
-                    // Else display error message
-                    else {
-                        errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
+        client.post(JobPost.this,"http://jobcue.herokuapp.com/jobs/", entity, "application/json", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(JSONObject response) {
+                super.onSuccess(response);
 
-
-                }
+                //Response ta jsonobject hoye asbe
+                // Mobile e test kore dekbo?
+                Toast.makeText(JobPost.this,response.toString(),Toast.LENGTH_LONG).show();
             }
 
-            // When the response returned by REST has Http response code other than '200'
             @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // Hide Progress Dialog
-
-                // When Http response code is '404'
-                if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                }
-                // When Http response code is '500'
-                else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                }
-                // When Http response code other than 404, 500
-                else {
-                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
-                }
+            public void onFailure(int statusCode, Throwable e, JSONArray errorResponse) {
+                super.onFailure(statusCode, e, errorResponse);
             }
         });
+
+
+
     }
     public void setDefaultValues(){
         jtile.setText("");
