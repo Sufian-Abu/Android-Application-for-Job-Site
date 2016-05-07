@@ -41,14 +41,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         Button post=(Button)findViewById(R.id.post_job);
         final Intent i1=new Intent(this,JobPost.class);
         post.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i1);
             }
         });
+
+
 
     }
 
@@ -75,8 +69,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.uprofile) {
-            return true;
+        if(id == R.id.login)
+        {
+            Intent log= new Intent(this,Login.class);
+            startActivity(log);
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,8 +1,10 @@
 package com.example.abusufian.jobcueandroid;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.preference.PreferenceActivity;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,23 +24,35 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JobSearch extends AppCompatActivity implements
         ActionBar.OnNavigationListener {
+    public static String[] subject;
+    public static String[] description;
+    public static final String KEY_SUB = "subject";
+    public static final String KEY_DES = "description";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -60,6 +74,7 @@ public class JobSearch extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_search);
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -79,34 +94,7 @@ public class JobSearch extends AppCompatActivity implements
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -178,11 +166,12 @@ public class JobSearch extends AppCompatActivity implements
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_job_search, container, false);
-            Button btn = (Button) rootView.findViewById(R.id.section_label);
+            final View rootView = inflater.inflate(R.layout.fragment_job_search, container, false);
+
 
             LinearLayout map = (LinearLayout)rootView.findViewById(R.id.Job_map);
             LinearLayout jobType = (LinearLayout)rootView.findViewById(R.id.Job_type);
+
 
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1)
@@ -195,40 +184,66 @@ public class JobSearch extends AppCompatActivity implements
                 map.setVisibility(View.GONE);
                 jobType.setVisibility(View.VISIBLE);
 
-                btn.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
+                //JOB TYPE data fetch
 
-                        AsyncHttpClient client = new AsyncHttpClient();
-                        client.get("http://jobcue.herokuapp.com/jobs/", new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(JSONObject response) {
-                                super.onSuccess(response);
+                //delete this BAAL SAAL
+
+                //fetch data from the server
+
+                AsyncHttpClient client = new AsyncHttpClient();
+                client.get("http://jobcue.herokuapp.com/jobs/", new JsonHttpResponseHandler() {
 
 
-                                Toast.makeText(getContext(), response.toString(), Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onSuccess(JSONArray response) {
+                        super.onSuccess(response);
+                        //Toast.makeText(getContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        try {
+                            //Log.d("JSONArray", response.toString());
+                            subject = new String[response.length()];
+                            description = new String[response.length()];
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jo = response.getJSONObject(i);
+
+                                subject[i] = jo.getString(KEY_SUB);
+                                description[i] = jo.getString(KEY_DES);
                             }
 
-                            @Override
-                            public void onFailure(int statusCode, Throwable e, JSONArray errorResponse) {
-                                super.onFailure(statusCode, e, errorResponse);
-                            }
-                        });
+                            ListView listView = (ListView)rootView.findViewById(R.id.jobsearch_listView);
+                            LstViewAdapter lv_adapter = new LstViewAdapter(getActivity(), R.layout.list_item, R.id.txt, subject);
+                            listView.setAdapter(lv_adapter);
 
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
+                        super.onFailure(statusCode, headers, responseBody, e);
+                        //Toast.makeText(getContext(), "Error " + statusCode + " " + responseBody, Toast.LENGTH_LONG).show();
+                        Log.d("erro22r", "failed");
                     }
                 });
-
-
-
-
-
-
-
-
             }
 
             return rootView;
         }
     }
+
+    public void clickMe(View view){
+        View parentRow = (View) view.getParent();
+        ListView listView = (ListView) parentRow.getParent();
+        final int position = listView.getPositionForView(parentRow);
+
+        String []array = new String[2];
+
+        array[0] = subject[position];
+        array[1] = description[position];
+
+        Intent i = new Intent(this, JobDetails.class);
+        i.putExtra("job", array);
+        startActivity(i);
+    }
+
 }

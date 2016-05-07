@@ -4,9 +4,9 @@
     tools:context="com.example.abusufian.jobcueandroid.JobSearch">
 
 
-    <item android:id="@+id/spinner"
+    <item android:id="@+id/Job_Type_JobSearch"
         android:actionViewClass="android.widget.Spinner"
-        android:title="Hello"
+        android:title="Job Type"
         app:showAsAction="always"/>
 
 </menu>

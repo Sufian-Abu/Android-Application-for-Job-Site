@@ -17,6 +17,9 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="22" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 
 
 
@@ -35,6 +38,7 @@
 
 
     <application
+        android:name=".SampleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -124,10 +128,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
+
+
+
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login"
@@ -140,14 +143,63 @@
             android:label="@string/title_activity_job_search"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".JobPost" >
+
+        <activity android:name=".JobPost">
         </activity>
+
         <activity android:name=".ProfileUpdate" >
         </activity>
         <activity android:name=".UserProfile" >
         </activity>
         <activity android:name=".JobDetails" >
         </activity>
+        <!--Auth0 Lock-->
+        <activity
+            android:name="com.auth0.lock.LockActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Lock.Theme" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="abu.auth0.com"
+                    android:scheme="a0Fyq7ZD5CVXvxLRvKVL8cAb69uaLIFA7D"/>
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.auth0.lock.client-id"
+            android:value="Fyq7ZD5CVXvxLRvKVL8cAb69uaLIFA7D"/>
+        <meta-data
+            android:name="com.auth0.lock.domain-url"
+            android:value="abu.auth0.com"/>
+        <!-- Auth0 Lock End -->
+
+        <!-- Facebook Native -->
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="696506353719958" />
+        <!-- Facebook Native End -->
+
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+
+
+
     </application>
 
 </manifest>
