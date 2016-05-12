@@ -77,6 +77,7 @@ public class JobSearch extends AppCompatActivity implements
         setContentView(R.layout.activity_job_search);
 
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -240,11 +241,12 @@ public class JobSearch extends AppCompatActivity implements
         ListView listView = (ListView) parentRow.getParent();
         final int position = listView.getPositionForView(parentRow);
 
-        String []array = new String[3];
+        String []array = new String[4];
 
         array[0] = subject[position];
         array[1] = description[position];
-        array[2]=id[position];
+        array[2] = id[position];
+        array[3] = "False";
 
         Intent i = new Intent(this, JobDetails.class);
         i.putExtra("job", array);

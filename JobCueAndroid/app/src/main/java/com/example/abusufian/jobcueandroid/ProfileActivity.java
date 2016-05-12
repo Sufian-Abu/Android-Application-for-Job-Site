@@ -6,6 +6,7 @@ package com.example.abusufian.jobcueandroid;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +34,18 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         MultiDex.install(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_profile);
+//        Button callAPIButton = (Button) findViewById(R.id.call_api_button);
+//        final Intent i=new Intent(this,UserProfile.class);
+//        callAPIButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(i);
+//
+//            }
+//        });
+
+
 //        UserProfile profile = getIntent().getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
 //        TextView greetingTextView = (TextView) findViewById(R.id.welcome_message);
 //        greetingTextView.setText("Welcome " + profile.getName());

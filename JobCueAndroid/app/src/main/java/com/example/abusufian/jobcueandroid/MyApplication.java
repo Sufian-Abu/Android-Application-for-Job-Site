@@ -1,8 +1,5 @@
 package com.example.abusufian.jobcueandroid;
 
-/**
- * Created by abusufian on 5/8/2016.
- */
 import android.app.Application;
 
 import com.auth0.core.Strategies;
@@ -12,7 +9,10 @@ import com.auth0.lock.LockContext;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-public class SampleApplication extends Application {
+/**
+ * Created by abusufian on 5/10/2016.
+ */
+public class MyApplication extends Application {
 
     public void onCreate() {
         super.onCreate();

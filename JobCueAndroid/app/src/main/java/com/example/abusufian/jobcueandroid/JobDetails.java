@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.apache.http.entity.ByteArrayEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +24,12 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 public class JobDetails extends AppCompatActivity {
+
+    private static String [] name = null;
+    private static final String KEY_LASTNAME = "lastName";
+    private static final String KEY_FIRSTNAME = "firstName";
+    private static String job_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +39,8 @@ public class JobDetails extends AppCompatActivity {
         TextView title = (TextView)findViewById(R.id.jobDetails_title);
         TextView description = (TextView)findViewById(R.id.jobDetails_description);
         Button jobapply=(Button)findViewById(R.id.jobapplication);
+        Button remove_job = (Button)findViewById(R.id.delete_job);
+        LinearLayout layout_request_job = (LinearLayout)findViewById(R.id.layout_request_job);
 
 
         Intent i = getIntent();
@@ -45,7 +57,29 @@ public class JobDetails extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "No Information", Toast.LENGTH_LONG).show();
         }
-        final String id=array[2];
+        final String id = array[2];
+        final String flag = array[3];
+
+        job_id = id;
+
+        if(flag.equalsIgnoreCase("True"))
+        {
+            //Delete button Visible
+            jobapply.setVisibility(View.GONE);
+            remove_job.setVisibility(View.VISIBLE);
+            layout_request_job.setVisibility(View.VISIBLE);
+
+            RequestForJob();
+        }
+        else
+        {
+            //JobApply Button Visible
+            jobapply.setVisibility(View.VISIBLE);
+            remove_job.setVisibility(View.GONE);
+            layout_request_job.setVisibility(View.GONE);
+        }
+
+
         jobapply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +104,98 @@ public class JobDetails extends AppCompatActivity {
 
 
     }
+
+
+    public void RequestForJob()
+    {
+        AsyncHttpClient client = new AsyncHttpClient();
+        String token = getToken("Token");
+
+        client.addHeader("Authorization", "Bearer " + token);
+        client.get("http://jobcue.herokuapp.com/jobs/" + job_id + "/applications", new JsonHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(JSONArray response) {
+                super.onSuccess(response);
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                try {
+                    Log.d("JOB_JSON", response.toString());
+
+//                    if (response.toString().length() != 0) { //TODO
+
+                        name = new String[10];
+
+                        for (int i = 0; i < name.length; i++) {
+//                            JSONObject jo = response.getJSONObject(i);
+//
+//                            String lastName = jo.getString(KEY_LASTNAME);
+//                            String firstName = jo.getString(KEY_FIRSTNAME);
+                            name[i] =  " apple ";
+                        }
+
+                        name[0] = "Apple";
+                        name[1] = "Mango";
+                        name[2] = "Strawberry";
+                        name[3] = "Jackfruit";
+
+                        String temp = "one ";
+                        for(int i = 0; i < name.length; i++)
+                        {
+                            temp += name[i];
+                        }
+
+                        Log.d("Empty", temp);
+
+                        ListView listView = (ListView) findViewById(R.id.request_job);//change
+                        RequestAdapterClass lv_adapter = new RequestAdapterClass(getApplicationContext(),
+                                R.layout.list_item_request_job,
+                                R.id.usertext, name);
+                        listView.setAdapter(lv_adapter);
+//                    }
+//                    else {
+//                        Toast.makeText(getApplicationContext(), "CHETER BAAL ", Toast.LENGTH_LONG).show();
+//                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
+                super.onFailure(statusCode, headers, responseBody, e);
+                Log.d("erro22r", "failed");
+            }
+        });
+
+    }
+
+
+
+    public void check_user(View view)
+    {
+        Toast.makeText(getApplicationContext(), "HEllo description", Toast.LENGTH_LONG).show();
+
+//        View parentRow = (View) view.getParent();
+
+//        ListView listView = (ListView) parentRow.getParent();
+//        final int position = listView.getPositionForView(parentRow);
+//
+//        String[] array = new String[4];
+//
+//        array[0] = subject[position];
+//        array[1] = description[position];
+//        array[2] = id_job[position];
+//        array[3] = "True";
+//
+//        Intent intent = new Intent(this, JobDetails.class);
+//        intent.putExtra("job", array);
+//        startActivity(intent);
+
+    }
+
+
+
 
     public String getToken(String token)
     {
@@ -118,4 +244,6 @@ public class JobDetails extends AppCompatActivity {
 
 
     }
+
+
 }

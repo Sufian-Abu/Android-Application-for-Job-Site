@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity {
             }
 
 
-            newIntent.putExtras(intent);
+            //newIntent.putExtras(intent);
             startActivity(newIntent);
         }
     };

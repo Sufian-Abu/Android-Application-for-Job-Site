@@ -222,107 +222,53 @@
         android:visibility="visible"
         android:id="@+id/postedjobs"
         >
+
+
         <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            >
+            android:layout_height="wrap_content">
+
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp"
                 >
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Posted Job"
-                    />
+
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1.0"
+                    android:layout_height="150dp"
+                    android:orientation="vertical"
                     android:layout_marginTop="20dp"
-                    android:background="#fff"
                     >
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mover"
-                        android:layout_weight="0.7"
+                        android:text="Posted Job"
                         />
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <ListView
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Details"
-
-                        />
-
+                        android:id="@+id/posted_job"
+                        ></ListView>
                 </LinearLayout>
-
-
-
             </LinearLayout>
 
         </ScrollView>
 
-        <ScrollView
+        <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            >
+            android:text="Post New Job"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:id="@+id/postnewjob"
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                >
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Request for Job"
-                    />
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1.0"
-                    android:layout_marginTop="20dp"
-                    android:background="#fff"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Username"
-                        android:layout_weight="0.7"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Details"
-
-                        />
-
-                </LinearLayout>
-
-                <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Post New Job"
-                    android:background="@color/colorPrimary"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/postnewjob"
-
-                    />
-
-            </LinearLayout>
+            />
 
 
 
-        </ScrollView>
+
     </LinearLayout>
 
 
