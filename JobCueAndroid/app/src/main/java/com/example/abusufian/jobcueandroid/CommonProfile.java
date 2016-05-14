@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserProfile extends AppCompatActivity {
+public class CommonProfile extends AppCompatActivity {
 
     public static String[] subject;
     public static String[] description;
@@ -53,7 +53,7 @@ public class UserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.content_common_profile);
         intent = new Intent(this, JobDetails.class);
         final LinearLayout fjobs = (LinearLayout) findViewById(R.id.foundjobs);
         final LinearLayout pjobs = (LinearLayout) findViewById(R.id.postedjobs);
@@ -63,12 +63,12 @@ public class UserProfile extends AppCompatActivity {
         final Intent i = new Intent(this, JobPost.class);
 
         postnewjobs.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   startActivity(i);
+                                           @Override
+                                           public void onClick(View v) {
+                                               startActivity(i);
 
-               }
-           }
+                                           }
+                                       }
         );
 
 
@@ -138,7 +138,7 @@ public class UserProfile extends AppCompatActivity {
 
                         ListView listView = (ListView) findViewById(R.id.posted_job);
                         ListViewAdapterUserProfile lv_adapter = new ListViewAdapterUserProfile
-                                (UserProfile.this, R.layout.listiteam2, R.id.usertext, subject);
+                                (CommonProfile.this, R.layout.listiteam2, R.id.usertext, subject);
                         listView.setAdapter(lv_adapter);
 
                     }

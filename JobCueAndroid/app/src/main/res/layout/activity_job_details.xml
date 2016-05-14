@@ -20,7 +20,7 @@
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Job Title"
             />
 
@@ -32,7 +32,7 @@
             />
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Job Description"
             />
 
@@ -65,15 +65,19 @@
 
 
 
-
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="500dp">
+        android:layout_height="600dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="600dp"
             android:orientation="vertical"
             android:visibility="gone"
             android:id="@+id/layout_request_job"
@@ -86,9 +90,11 @@
 
             <ListView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="500dp"
                 android:id="@+id/request_job"/>
         </LinearLayout>
     </ScrollView>
+</LinearLayout>
+
 
 </LinearLayout>

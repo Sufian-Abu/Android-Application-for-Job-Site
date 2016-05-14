@@ -28,6 +28,8 @@ public class RequestAdapterClass extends ArrayAdapter<String> {
         this.firstName=fName;
     }
 
+
+
     // Hold views of the ListView to improve its scrolling performance
     static class ViewHolder {
         public TextView textview;

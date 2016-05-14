@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
     private BroadcastReceiver authenticationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final Intent newIntent = new Intent(Login.this, UserProfile.class);
+            final Intent newIntent = new Intent(Login.this, CommonProfile.class);
             //UserProfile profile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
             Token token = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_TOKEN_PARAMETER);
 

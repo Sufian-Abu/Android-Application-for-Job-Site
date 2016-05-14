@@ -8,6 +8,8 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/logout" android:title="deltoken"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/uprofile" android:title="Update Profile"
+        android:orderInCategory="100" app:showAsAction="never" />
 
 
 

@@ -25,7 +25,7 @@ import java.io.UnsupportedEncodingException;
 
 public class JobDetails extends AppCompatActivity {
 
-    private static String [] name = null;
+    private static String [] name;
     private static final String KEY_LASTNAME = "lastName";
     private static final String KEY_FIRSTNAME = "firstName";
     private static String job_id;
@@ -65,11 +65,12 @@ public class JobDetails extends AppCompatActivity {
         if(flag.equalsIgnoreCase("True"))
         {
             //Delete button Visible
+            Log.d("Empty" , flag + "");
             jobapply.setVisibility(View.GONE);
             remove_job.setVisibility(View.VISIBLE);
             layout_request_job.setVisibility(View.VISIBLE);
-
             RequestForJob();
+
         }
         else
         {
@@ -83,21 +84,19 @@ public class JobDetails extends AppCompatActivity {
         jobapply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String token=getToken("Token");
-                if(token != null) {
+            String token=getToken("Token");
+            if(token != null) {
 
-                    try {
-                        invokeWS(id,token);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    invokeWS(id,token);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Token not fetched", Toast.LENGTH_SHORT).show();
-                }
-
-
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Token not fetched", Toast.LENGTH_SHORT).show();
+            }
             }
         });
 
@@ -112,6 +111,9 @@ public class JobDetails extends AppCompatActivity {
         String token = getToken("Token");
 
         client.addHeader("Authorization", "Bearer " + token);
+
+        Log.d("Empty", "Before Success " + token);
+
         client.get("http://jobcue.herokuapp.com/jobs/" + job_id + "/applications", new JsonHttpResponseHandler() {
 
 
@@ -142,13 +144,13 @@ public class JobDetails extends AppCompatActivity {
                         String temp = "one ";
                         for(int i = 0; i < name.length; i++)
                         {
-                            temp += name[i];
+                            temp +=  " " + name[i];
                         }
 
                         Log.d("Empty", temp);
 
                         ListView listView = (ListView) findViewById(R.id.request_job);//change
-                        RequestAdapterClass lv_adapter = new RequestAdapterClass(getApplicationContext(),
+                        RequestAdapterClass lv_adapter = new RequestAdapterClass(JobDetails.this,
                                 R.layout.list_item_request_job,
                                 R.id.usertext, name);
                         listView.setAdapter(lv_adapter);
@@ -157,6 +159,7 @@ public class JobDetails extends AppCompatActivity {
 //                        Toast.makeText(getApplicationContext(), "CHETER BAAL ", Toast.LENGTH_LONG).show();
 //                    }
                 } catch (Exception e) {
+                    Log.d("Error", e + "");
                     e.printStackTrace();
                 }
             }
@@ -219,11 +222,15 @@ public class JobDetails extends AppCompatActivity {
         AsyncHttpClient client = new AsyncHttpClient();
 
         client.addHeader("Authorization","Bearer "+ new_token );
+        Toast.makeText(JobDetails.this, id, Toast.LENGTH_LONG).show();
+        Toast.makeText(JobDetails.this, new_token, Toast.LENGTH_LONG).show();
 
 
         //client.addHeader("Authorization","Bearer "+ "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NoYW9uLmF1dGgwLmNvbS8iLCJzdWIiOiJ0d2l0dGVyfDMwMjY4NDM0NDMiLCJhdWQiOiJYRHZwYzV5UlcycWhUclJIV2NFMHEwMkZxM2tMSW5DZiIsImV4cCI6MTQ2NTM2MTQyMiwiaWF0IjoxNDYyNzMxNjc2fQ.tQTJWLlWpB0Ihmk46FxpfyAk_Az01xy2X_IVVnkBRc4" );
 
         ByteArrayEntity entity = new ByteArrayEntity(id.getBytes("UTF-8"));
+
+
 
 
         client.post("http://jobcue.herokuapp.com/jobs/"+id+"/applications",new JsonHttpResponseHandler(){

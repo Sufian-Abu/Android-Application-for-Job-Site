@@ -89,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        else if (id == R.id.uprofile) {
+
+            Intent i = new Intent(this,ProfileUpdate.class);
+            startActivity(i);
+
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
