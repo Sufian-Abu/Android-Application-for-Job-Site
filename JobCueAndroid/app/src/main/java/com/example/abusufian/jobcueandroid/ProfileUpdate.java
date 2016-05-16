@@ -126,7 +126,7 @@
                  public void invokeWS(JSONObject params) throws UnsupportedEncodingException {
 
 
-                     Toast.makeText(getApplicationContext(), "I am here", Toast.LENGTH_LONG).show();
+                     Toast.makeText(getApplicationContext(),params.toString() , Toast.LENGTH_LONG).show();
                      // Make RESTful webservice call using AsyncHttpClient object
                      AsyncHttpClient client = new AsyncHttpClient();
 

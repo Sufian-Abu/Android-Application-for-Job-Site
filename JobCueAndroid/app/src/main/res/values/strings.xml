@@ -18,4 +18,5 @@
     <string name="title_activity_job_search">JobSearch</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_common_profile">CommonProfile</string>
+    <string name="title_activity_user_profile_view">UserProfileView</string>
 </resources>

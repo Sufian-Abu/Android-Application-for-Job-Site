@@ -12,6 +12,25 @@
         android:layout_weight="0.7"
         android:id="@+id/usertext"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept"
+        android:id="@+id/Accepted"
+        android:onClick="check_accept"
+        android:textColor="#000"
+
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reject"
+        android:id="@+id/Rejected"
+        android:onClick="check_reject"
+        android:textColor="#000"
+
+        />
+
 
     <Button
         android:layout_width="wrap_content"

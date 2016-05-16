@@ -80,7 +80,6 @@
         </activity>
         <activity android:name=".ProfileUpdate" >
         </activity>
-
         <activity android:name=".JobDetails" >
         </activity>
 
@@ -118,6 +117,11 @@
         <activity
             android:name=".CommonProfile"
             android:label="@string/title_activity_common_profile"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".UserProfileView"
+            android:label="@string/title_activity_user_profile_view"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

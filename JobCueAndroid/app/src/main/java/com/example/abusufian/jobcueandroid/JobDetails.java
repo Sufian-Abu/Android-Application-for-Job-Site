@@ -26,9 +26,13 @@ import java.io.UnsupportedEncodingException;
 public class JobDetails extends AppCompatActivity {
 
     private static String [] name;
-    private static final String KEY_LASTNAME = "lastName";
-    private static final String KEY_FIRSTNAME = "firstName";
-    private static String job_id;
+    private static String []userid;
+    private static String []jobid;
+//    public static final String KEY_LASTNAME = "lastName";
+//    public static final String KEY_FIRSTNAME = "firstName";
+//    public static final String KEY_ID="id";
+
+    public static String job_id;
 
 
     @Override
@@ -121,33 +125,36 @@ public class JobDetails extends AppCompatActivity {
             public void onSuccess(JSONArray response) {
                 super.onSuccess(response);
                 Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                Log.d("Hello",response.toString());
                 try {
                     Log.d("JOB_JSON", response.toString());
 
 //                    if (response.toString().length() != 0) { //TODO
 
-                        name = new String[10];
+                        name = new String[response.length()];
+                       userid= new String[response.length()];
+                       jobid=  new String[response.length()];
 
                         for (int i = 0; i < name.length; i++) {
-//                            JSONObject jo = response.getJSONObject(i);
-//
-//                            String lastName = jo.getString(KEY_LASTNAME);
-//                            String firstName = jo.getString(KEY_FIRSTNAME);
-                            name[i] =  " apple ";
+                            JSONObject jo = response.getJSONObject(i);
+                            Toast.makeText(getApplicationContext(),jo.toString(),Toast.LENGTH_LONG).show();
+
+                            JSONObject ob=jo.getJSONObject("User");
+
+                            String lastName = ob.getString("lastName");
+                            String firstName = ob.getString("firstName");
+                            String demo=lastName+firstName;
+                            name[i]=demo;
+                            userid[i]=ob.getString("id");
+                            jobid[i]=jo.getString("JobId");
+
                         }
 
-                        name[0] = "Apple";
-                        name[1] = "Mango";
-                        name[2] = "Strawberry";
-                        name[3] = "Jackfruit";
 
-                        String temp = "one ";
-                        for(int i = 0; i < name.length; i++)
-                        {
-                            temp +=  " " + name[i];
-                        }
 
-                        Log.d("Empty", temp);
+
+
+
 
                         ListView listView = (ListView) findViewById(R.id.request_job);//change
                         RequestAdapterClass lv_adapter = new RequestAdapterClass(JobDetails.this,
@@ -177,25 +184,74 @@ public class JobDetails extends AppCompatActivity {
 
     public void check_user(View view)
     {
-        Toast.makeText(getApplicationContext(), "HEllo description", Toast.LENGTH_LONG).show();
 
-//        View parentRow = (View) view.getParent();
 
-//        ListView listView = (ListView) parentRow.getParent();
-//        final int position = listView.getPositionForView(parentRow);
-//
-//        String[] array = new String[4];
-//
-//        array[0] = subject[position];
-//        array[1] = description[position];
-//        array[2] = id_job[position];
-//        array[3] = "True";
-//
-//        Intent intent = new Intent(this, JobDetails.class);
-//        intent.putExtra("job", array);
-//        startActivity(intent);
+        View parentRow = (View) view.getParent();
+
+        ListView listView = (ListView) parentRow.getParent();
+        final int position = listView.getPositionForView(parentRow);
+
+        String id=userid[position];
+        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
+
+
+        Intent intent = new Intent(this, UserProfileView.class);
+        intent.putExtra("job", id);
+        startActivity(intent);
 
     }
+
+    public void check_reject(View view)
+    {
+        Toast.makeText(getApplicationContext(), "HEllo description", Toast.LENGTH_LONG).show();
+
+        View parentRow = (View) view.getParent();
+
+        ListView listView = (ListView) parentRow.getParent();
+        final int position = listView.getPositionForView(parentRow);
+        String user_id=userid[position];
+        String job_id=jobid[position];
+        boolean test=false;
+        CheckStatusJob(job_id,user_id,test);
+
+
+
+
+    }
+    public void check_accept(View view)
+    {
+        Toast.makeText(getApplicationContext(), "HEllo description", Toast.LENGTH_LONG).show();
+
+        View parentRow = (View) view.getParent();
+
+        ListView listView = (ListView) parentRow.getParent();
+        final int position = listView.getPositionForView(parentRow);
+        String user_id=userid[position];
+        String job_id=jobid[position];
+        boolean test=true;
+        CheckStatusJob(job_id,user_id,test);
+
+    }
+
+    public void CheckStatusJob(String jobid,String userid,boolean test)
+    {
+        String status=null;
+        if(test)
+        {
+            status="accepted";
+        }
+        else
+        {
+
+            status="rejected";
+
+        }
+
+
+
+
+    }
+
 
 
 
