@@ -138,7 +138,6 @@
                 android:layout_height="wrap_content"
                 android:text="POST"
                 android:background="#abcdef"
-                android:onClick="JobPost"
                 android:id="@+id/jpost"
                 />
 

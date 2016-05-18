@@ -19,9 +19,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.entity.ByteArrayEntity;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 public class JobDetails extends AppCompatActivity {
 
@@ -44,6 +46,7 @@ public class JobDetails extends AppCompatActivity {
         TextView description = (TextView)findViewById(R.id.jobDetails_description);
         Button jobapply=(Button)findViewById(R.id.jobapplication);
         Button remove_job = (Button)findViewById(R.id.delete_job);
+        Button update_job=(Button)findViewById(R.id.update_job);
         LinearLayout layout_request_job = (LinearLayout)findViewById(R.id.layout_request_job);
 
 
@@ -72,6 +75,7 @@ public class JobDetails extends AppCompatActivity {
             Log.d("Empty" , flag + "");
             jobapply.setVisibility(View.GONE);
             remove_job.setVisibility(View.VISIBLE);
+            update_job.setVisibility(View.VISIBLE);
             layout_request_job.setVisibility(View.VISIBLE);
             RequestForJob();
 
@@ -103,6 +107,55 @@ public class JobDetails extends AppCompatActivity {
             }
             }
         });
+
+
+
+    }
+
+    public void RemoveJob(View view)
+    {
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        String token = getToken("Token");
+        Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
+
+        if(token != null) {
+            //String new_token = token;
+            String new_token=token;
+            client.addHeader("Authorization","Bearer "+ new_token );
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Token not fetched", Toast.LENGTH_SHORT).show();
+        }
+
+        client.delete(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/"+job_id, new JsonHttpResponseHandler() {
+        @Override
+            public void onSuccess(JSONObject response) {
+                super.onSuccess(response);
+
+
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable e, JSONArray errorResponse) {
+                super.onFailure(statusCode, e, errorResponse);
+                Toast.makeText(getApplicationContext(), errorResponse.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+    }
+
+    public void UpdateJob(View view)
+    {
+        Intent i=new Intent(this,JobPost.class);
+        i.putExtra("Flag","True");
+        i.putExtra("jobid",job_id);
+        startActivity(i);
+
 
 
 
@@ -201,9 +254,8 @@ public class JobDetails extends AppCompatActivity {
 
     }
 
-    public void check_reject(View view)
-    {
-        Toast.makeText(getApplicationContext(), "HEllo description", Toast.LENGTH_LONG).show();
+    public void check_reject(View view) throws UnsupportedEncodingException {
+        Toast.makeText(getApplicationContext(), "HEllo Reject", Toast.LENGTH_LONG).show();
 
         View parentRow = (View) view.getParent();
 
@@ -211,16 +263,21 @@ public class JobDetails extends AppCompatActivity {
         final int position = listView.getPositionForView(parentRow);
         String user_id=userid[position];
         String job_id=jobid[position];
+//        Toast.makeText(getApplicationContext(),user_id , Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), job_id, Toast.LENGTH_LONG).show();
         boolean test=false;
-        CheckStatusJob(job_id,user_id,test);
+        try {
+            CheckStatusJob(job_id,user_id,test);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
 
 
 
     }
-    public void check_accept(View view)
-    {
-        Toast.makeText(getApplicationContext(), "HEllo description", Toast.LENGTH_LONG).show();
+    public void check_accept(View view) throws UnsupportedEncodingException {
+
 
         View parentRow = (View) view.getParent();
 
@@ -228,13 +285,23 @@ public class JobDetails extends AppCompatActivity {
         final int position = listView.getPositionForView(parentRow);
         String user_id=userid[position];
         String job_id=jobid[position];
+//        Toast.makeText(getApplicationContext(),user_id , Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), job_id, Toast.LENGTH_LONG).show();
+
+
         boolean test=true;
-        CheckStatusJob(job_id,user_id,test);
+        try {
+            CheckStatusJob(job_id,user_id,test);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public void CheckStatusJob(String jobid,String userid,boolean test)
-    {
+    public void CheckStatusJob(String jobid,String userid,boolean test) throws UnsupportedEncodingException {
+        Toast.makeText(getApplicationContext(), jobid, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), userid, Toast.LENGTH_SHORT).show();
+
         String status=null;
         if(test)
         {
@@ -246,6 +313,55 @@ public class JobDetails extends AppCompatActivity {
             status="rejected";
 
         }
+
+        JSONObject sendData = new JSONObject();
+        try {
+            sendData.put("status", status);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        String token = getToken("Token");
+      // Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
+        Log.d("TokenShow",token);
+
+        if(token != null) {
+            //String new_token = token;
+            String new_token=token;
+            client.addHeader("Authorization","Bearer "+ new_token );
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Token not fetched", Toast.LENGTH_SHORT).show();
+        }
+        //client.addHeader("Authorization","Bearer "+ "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NoYW9uLmF1dGgwLmNvbS8iLCJzdWIiOiJ0d2l0dGVyfDMwMjY4NDM0NDMiLCJhdWQiOiJYRHZwYzV5UlcycWhUclJIV2NFMHEwMkZxM2tMSW5DZiIsImV4cCI6MTQ2NTM2MTQyMiwiaWF0IjoxNDYyNzMxNjc2fQ.tQTJWLlWpB0Ihmk46FxpfyAk_Az01xy2X_IVVnkBRc4" );
+
+        ByteArrayEntity entity = new ByteArrayEntity(sendData.toString().getBytes("UTF-8"));
+
+        //Toast.makeText(getApplicationContext(),sendData.toString(),Toast.LENGTH_LONG).show();
+
+      //  client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/" + jobid + "/applications/" + userid, entity, "application/json", new JsonHttpResponseHandler() {
+        client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/1/applications/3",entity,"application/json", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                super.onSuccess(response);
+
+
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable e, JSONArray errorResponse) {
+                super.onFailure(statusCode, e, errorResponse);
+                Toast.makeText(getApplicationContext(), errorResponse.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
 
 

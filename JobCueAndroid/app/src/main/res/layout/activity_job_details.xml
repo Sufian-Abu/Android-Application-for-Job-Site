@@ -55,7 +55,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/delete_job"
             android:visibility="gone"
+            android:onClick="RemoveJob"
             android:text="Remove Job"/>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_job"
+            android:visibility="gone"
+            android:onClick="UpdateJob"
+            android:text="Update Job"/>
 
 
     </LinearLayout>

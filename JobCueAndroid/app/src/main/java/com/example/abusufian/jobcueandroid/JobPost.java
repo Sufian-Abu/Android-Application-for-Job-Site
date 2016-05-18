@@ -35,6 +35,9 @@ import android.location.LocationManager;
 public class JobPost extends AppCompatActivity implements LocationListener {
 
     String provider;
+    public static String flag="false";
+    public static String jobid="";
+
 
 
     EditText jtile;
@@ -44,6 +47,7 @@ public class JobPost extends AppCompatActivity implements LocationListener {
     EditText jcontact;
     EditText jdescription;
     Button jobpost;
+
     TextView errorMsg;
     private double lat;
     private double longt;
@@ -75,16 +79,6 @@ public class JobPost extends AppCompatActivity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_post);
-        String checktoken=getToken("Token");
-
-        if(checktoken==null) {
-            Intent i = new Intent(this, Login.class);
-            startActivity(i);
-        }
-        else if (checktoken.equalsIgnoreCase("")) {
-            Intent i = new Intent(this, Login.class);
-            startActivity(i);
-        }
 
 
         jtile = (EditText) findViewById(R.id.jobtitle);
@@ -97,13 +91,78 @@ public class JobPost extends AppCompatActivity implements LocationListener {
 
 
 
+
         //Location works starts here
         getCurrentLocation(getApplicationContext());
 
-         lat = getLatitude();
-         longt = getLongitude();
+        lat = getLatitude();
+        longt = getLongitude();
 
-        Toast.makeText(getApplicationContext(), lat + " ><<> " + longt, Toast.LENGTH_LONG).show();
+        String checktoken=getToken("Token");
+
+        if(checktoken==null) {
+            Intent i = new Intent(this, Login.class);
+            startActivity(i);
+        }
+        else if (checktoken.equalsIgnoreCase("")) {
+            Intent i = new Intent(this, Login.class);
+            startActivity(i);
+        }
+
+        Bundle bundle=getIntent().getExtras();
+
+        if(bundle!=null)
+        {
+             flag=bundle.getString("Flag");
+             jobid=bundle.getString("jobid");
+        }
+
+        if(flag.equalsIgnoreCase("True"))
+        {
+            //update function call
+            //get Data from server
+            //set data to editText
+            //jtile.setText("");
+
+            
+
+
+
+
+
+
+
+
+        }
+
+        jobpost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(flag.equalsIgnoreCase("True"))
+                {
+                    // Update er post e click korbo
+
+
+                }
+                else
+                {
+
+                    JobPost();
+
+                }
+
+            }
+        });
+
+
+
+
+
+
+
+
+
 
 
 
@@ -239,7 +298,7 @@ public class JobPost extends AppCompatActivity implements LocationListener {
     }
 
 
-    public void JobPost(View view) {
+    public void JobPost(){
         Toast.makeText(getApplicationContext(), "Button clicked", Toast.LENGTH_LONG).show();
         String jobt = jtile.getText().toString();
         String jdes = jdescription.getText().toString();
