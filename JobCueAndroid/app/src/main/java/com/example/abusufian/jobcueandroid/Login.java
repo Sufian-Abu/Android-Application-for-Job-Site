@@ -14,11 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.auth0.core.Token;
+import com.auth0.core.UserProfile;
 import com.auth0.lock.Lock;
 import com.auth0.lock.LockActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import static com.auth0.lock.Lock.AUTHENTICATION_ACTION;
 
@@ -30,8 +33,13 @@ public class Login extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             final Intent newIntent = new Intent(Login.this, CommonProfile.class);
-            //UserProfile profile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
+           // UserProfile profile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
             Token token = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_TOKEN_PARAMETER);
+
+//            ImageView profileImageView = (ImageView) findViewById(R.id.profile_image);
+//        if (profile.getPictureURL() != null) {
+//            ImageLoader.getInstance().displayImage(profile.getPictureURL(), profileImageView);
+//        }
 
 
             String toAddToken =  token.getIdToken();

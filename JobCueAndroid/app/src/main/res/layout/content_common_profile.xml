@@ -111,51 +111,7 @@
         android:visibility="gone"
         android:id="@+id/foundjobs"
         >
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                >
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Current Job"
-                    />
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1.0"
-                    android:layout_marginTop="20dp"
-                    android:background="#fff"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mover"
-                        android:layout_weight="0.7"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Details"
-
-                        />
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-        </ScrollView>
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -166,51 +122,60 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                >
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Previous Job"
-                    />
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1.0"
+                    android:orientation="vertical"
                     android:layout_marginTop="20dp"
-                    android:background="#fff"
                     >
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Restaurent"
-                        android:layout_weight="0.7"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Details"
-
+                        android:text="Current Job"
                         />
 
+                    <ListView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/current_jobs"
+                        >
+
+                    </ListView>
                 </LinearLayout>
 
-                <Button
+               <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Find New Job"
-                    android:background="@color/colorPrimary"
-                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    >
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Previous Job"
+                        />
 
-                    />
+                   <ListView
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/previous_jobs">
+                   </ListView>
 
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Find New Job"
+                        android:background="@color/colorPrimary"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/findnewjob"
+                        />
+                </LinearLayout>
             </LinearLayout>
-
-
-
         </ScrollView>
+
     </LinearLayout>
 
     // POSTED JOBS
@@ -251,6 +216,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/posted_job"
                         ></ListView>
+
                 </LinearLayout>
             </LinearLayout>
 

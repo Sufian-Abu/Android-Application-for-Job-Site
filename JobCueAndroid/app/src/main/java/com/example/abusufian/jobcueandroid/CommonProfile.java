@@ -30,9 +30,18 @@ import java.util.ArrayList;
 
 public class CommonProfile extends AppCompatActivity {
 
+
+    //Posted Job
     public static String[] subject;
     public static String[] description;
     public static String[] id_job;
+
+    //FoundJobs
+    public static String[] fsubject;
+    public static String[] fdescription;
+    public static String[] femployerid;
+
+
     private static String[] get_id_job = null;
     public static String[] firstname;
     public static String[] lastname;
@@ -42,6 +51,8 @@ public class CommonProfile extends AppCompatActivity {
     public static final String KEY_SUB = "subject";
     public static final String KEY_DES = "description";
     public static final String KEY_ID = "id";
+    public static final String KEY_EMID = "EmployerId";
+
     public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_FIRSTNAME = "firstName";
 
@@ -60,12 +71,23 @@ public class CommonProfile extends AppCompatActivity {
 
         Button foundjobs = (Button) findViewById(R.id.fjobs);
         Button postnewjobs = (Button) findViewById(R.id.postnewjob);
+        Button findnewjob=(Button)findViewById(R.id.findnewjob);
         final Intent i = new Intent(this, JobPost.class);
+        final Intent findnewerjob = new Intent(this, JobSearch.class);
 
         postnewjobs.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
                                                startActivity(i);
+
+                                           }
+                                       }
+        );
+
+        findnewjob.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               startActivity(findnewerjob);
 
                                            }
                                        }
@@ -77,6 +99,8 @@ public class CommonProfile extends AppCompatActivity {
             public void onClick(View v) {
                 fjobs.setVisibility(View.VISIBLE);
                 pjobs.setVisibility(View.GONE);
+                FoundJob();
+
             }
         });
 
@@ -108,24 +132,40 @@ public class CommonProfile extends AppCompatActivity {
         AsyncHttpClient client = new AsyncHttpClient();
         String token = getToken("Token");
 
-        client.addHeader("Authorization", "Bearer " + token);
+        Toast.makeText(getApplicationContext(), "Button Clicked", Toast.LENGTH_LONG).show();
 
-        client.get("http://jobcue.herokuapp.com/jobs/", new JsonHttpResponseHandler() {
+        client.addHeader("Authorization", "Bearer " + token);
+        String s = ((MyApplication)this.getApplication()).getSomeVariable();
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+
+
+        //Log.d("Foo", s);
+
+
+        client.get("http://jobcue.herokuapp.com/users/"+s+"/employer", new JsonHttpResponseHandler() {
 
 
             @Override
             public void onSuccess(JSONArray response) {
                 super.onSuccess(response);
-                //Toast.makeText(getContext(), response.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+
+                Log.d("Employer", response.toString());
                 try {
-                    Log.d("JSONArray", response.toString());
+                    Log.d("JSONArray", String.valueOf(response));
+
 
                     subject = new String[response.length()];
                     description = new String[response.length()];
                     id_job = new String[response.length()];
 
+
+
                     for (int i = 0; i < response.length(); i++) {
-                        JSONObject jo = response.getJSONObject(i);
+
+                        JSONObject jo= response.getJSONObject(i);
+
+
 
                         subject[i] = jo.getString(KEY_SUB);
                         description[i] = jo.getString(KEY_DES);
@@ -174,6 +214,93 @@ public class CommonProfile extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    private void FoundJob() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        String token = getToken("Token");
+
+        Toast.makeText(getApplicationContext(), "Button Clicked", Toast.LENGTH_LONG).show();
+
+        client.addHeader("Authorization", "Bearer " + token);
+        String s = ((MyApplication)this.getApplication()).getJobApplicantId();
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+
+
+        //Log.d("Foo", s);
+
+
+        client.get("http://jobcue.herokuapp.com/users/" + s + "/employee", new JsonHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(JSONArray response) {
+                super.onSuccess(response);
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+
+
+                try {
+                    Log.d("JSONArray", response.toString());
+
+
+                    fsubject = new String[response.length()];
+                    fdescription = new String[response.length()];
+                    femployerid = new String[response.length()];
+
+
+                    for (int i = 0; i < response.length(); i++) {
+
+                        JSONObject jo = response.getJSONObject(i);
+
+
+                        fsubject[i] = jo.getString(KEY_SUB);
+                        fdescription[i] = jo.getString(KEY_DES);
+                        femployerid[i] = jo.getString(KEY_EMID);
+                    }
+
+                    if (fsubject.length == 0) {
+                        Toast.makeText(getApplicationContext(), "No Data", Toast.LENGTH_LONG).show();
+                    } else {
+
+                        ListView listView = (ListView) findViewById(R.id.current_jobs);
+                        ListViewAdapterForFoundJobs lv_adapter = new ListViewAdapterForFoundJobs
+                                (CommonProfile.this, R.layout.foundjobslistiteam, R.id.usertile, fsubject);
+                        listView.setAdapter(lv_adapter);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
+                super.onFailure(statusCode, headers, responseBody, e);
+                //Toast.makeText(getContext(), "Error " + statusCode + " " + responseBody, Toast.LENGTH_LONG).show();
+                Log.d("erro22r", "failed");
+            }
+        });
+    }
+
+    public void JobDes(View view) {
+
+        View parentRow = (View) view.getParent();
+        ListView listView = (ListView) parentRow.getParent();
+        final int position = listView.getPositionForView(parentRow);
+
+        String[] array = new String[2];
+
+        array[0] = fsubject[position];
+        array[1] = fdescription[position];
+
+
+        Intent intent = new Intent(this, JobDetails.class);
+        intent.putExtra("foundjob", array);
+        startActivity(intent);
+
+    }
+
+
+
 
 
 

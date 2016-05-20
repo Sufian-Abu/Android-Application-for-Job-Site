@@ -50,9 +50,13 @@ public class JobDetails extends AppCompatActivity {
         LinearLayout layout_request_job = (LinearLayout)findViewById(R.id.layout_request_job);
 
 
+
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
          String []array=null;
+        String  []foundjobs=null;
+
+        //Problem is here for foundJobs
 
         if(bundle != null)
         {
@@ -60,6 +64,7 @@ public class JobDetails extends AppCompatActivity {
             title.setText(array[0]);
             description.setText(array[1]);
         }
+
         else
         {
             Toast.makeText(getApplicationContext(), "No Information", Toast.LENGTH_LONG).show();
@@ -344,8 +349,8 @@ public class JobDetails extends AppCompatActivity {
 
         //Toast.makeText(getApplicationContext(),sendData.toString(),Toast.LENGTH_LONG).show();
 
-      //  client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/" + jobid + "/applications/" + userid, entity, "application/json", new JsonHttpResponseHandler() {
-        client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/1/applications/3",entity,"application/json", new JsonHttpResponseHandler() {
+        client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/" + jobid + "/applications/" + userid, entity, "application/json", new JsonHttpResponseHandler() {
+       // client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/1/applications/3",entity,"application/json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject response) {
                 super.onSuccess(response);
@@ -412,6 +417,13 @@ public class JobDetails extends AppCompatActivity {
 
 
                 Toast.makeText(JobDetails.this, response.toString(), Toast.LENGTH_LONG).show();
+                try {
+                    String UserId=response.getString("UserId");
+                    ((MyApplication) getApplication()).setJobApplicantId(UserId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

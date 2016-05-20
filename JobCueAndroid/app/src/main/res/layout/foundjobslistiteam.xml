@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.abusufian.jobcueandroid.CommonProfile">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Job Title"
+        android:layout_weight="0.7"
+        android:id="@+id/usertile"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Employer"
+        android:id="@+id/employer"
+        android:onClick="Employer"
+        android:textColor="#000"
+
+        />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Job Details"
+        android:id="@+id/jobdescription"
+        android:onClick="JobDes"
+        android:textColor="#000"
+
+        />
+
+</LinearLayout>
