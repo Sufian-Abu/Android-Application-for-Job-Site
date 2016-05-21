@@ -140,7 +140,7 @@
                      ByteArrayEntity entity = new ByteArrayEntity(params.toString().getBytes("UTF-8"));
 
 
-                     client.put(getApplicationContext(), "http://jobcue.herokuapp.com/users/", entity, "application/json", new JsonHttpResponseHandler() {
+                     client.put(getApplicationContext(), "http://jobcue.herokuapp.com/users/me", entity, "application/json", new JsonHttpResponseHandler() {
                          @Override
                          public void onSuccess(JSONObject response) {
                              super.onSuccess(response);

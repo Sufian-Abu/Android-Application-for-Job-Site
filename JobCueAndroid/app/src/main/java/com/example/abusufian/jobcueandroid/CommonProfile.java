@@ -14,13 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.auth0.core.UserProfile;
+import com.auth0.lock.Lock;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -65,6 +69,12 @@ public class CommonProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_common_profile);
+        UserProfile profile = getIntent().getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
+        ImageView profileImageView = (ImageView) findViewById(R.id.profile_image);
+        if (profile.getPictureURL() != null) {
+            ImageLoader.getInstance().displayImage(profile.getPictureURL(), profileImageView);
+        }
+
         intent = new Intent(this, JobDetails.class);
         final LinearLayout fjobs = (LinearLayout) findViewById(R.id.foundjobs);
         final LinearLayout pjobs = (LinearLayout) findViewById(R.id.postedjobs);
@@ -257,16 +267,13 @@ public class CommonProfile extends AppCompatActivity {
                         femployerid[i] = jo.getString(KEY_EMID);
                     }
 
-                    if (fsubject.length == 0) {
-                        Toast.makeText(getApplicationContext(), "No Data", Toast.LENGTH_LONG).show();
-                    } else {
+
 
                         ListView listView = (ListView) findViewById(R.id.current_jobs);
                         ListViewAdapterForFoundJobs lv_adapter = new ListViewAdapterForFoundJobs
                                 (CommonProfile.this, R.layout.foundjobslistiteam, R.id.usertile, fsubject);
                         listView.setAdapter(lv_adapter);
 
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -287,14 +294,28 @@ public class CommonProfile extends AppCompatActivity {
         ListView listView = (ListView) parentRow.getParent();
         final int position = listView.getPositionForView(parentRow);
 
-        String[] array = new String[2];
+        String[] array = new String[4];
 
         array[0] = fsubject[position];
         array[1] = fdescription[position];
+        array[2] = femployerid[position];
+        array[3] = "found";
 
 
         Intent intent = new Intent(this, JobDetails.class);
-        intent.putExtra("foundjob", array);
+        intent.putExtra("job", array);
+        startActivity(intent);
+
+    }
+    public void Employer(View view) {
+
+        View parentRow = (View) view.getParent();
+        ListView listView = (ListView) parentRow.getParent();
+        final int position = listView.getPositionForView(parentRow);
+
+        String id=femployerid[position];
+        Intent intent = new Intent(this,  UserProfileView.class);
+        intent.putExtra("job", id);
         startActivity(intent);
 
     }

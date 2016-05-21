@@ -215,6 +215,7 @@ public class JobSearch extends AppCompatActivity implements
                 //lat long in an array;
                 //call method to fetch LAT LONG
                 //populate the array
+
             }
             else
             {
@@ -223,7 +224,6 @@ public class JobSearch extends AppCompatActivity implements
 
                 //JOB TYPE data fetch
 
-                //delete this BAAL SAAL
 
                 //fetch data from the server
                 DataGet(rootView);
@@ -310,6 +310,19 @@ public class JobSearch extends AppCompatActivity implements
                     for (int i = 0; i < arrayList.size(); i++) {
                         if (arrayList.get(i).equals(marker)) {
                             Log.d("Marker", marker + " CLICK");
+
+                            String []array = new String[4];
+
+                            array[0] = subject[i];
+                            array[1] = description[i];
+                            array[2] = id[i];
+                            array[3] = "False";
+
+                            Intent m = new Intent(getContext(), JobDetails.class);
+                            m.putExtra("job", array);
+                            startActivity(m);
+
+
 
                         }
                     }

@@ -31,6 +31,7 @@ public class ListViewAdapterForFoundJobs extends ArrayAdapter<String> {
     static class ViewHolder {
         public TextView textview;
         public Button button;
+        public Button button2;
 
     }
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -43,7 +44,7 @@ public class ListViewAdapterForFoundJobs extends ArrayAdapter<String> {
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.textview= (TextView) rowView.findViewById(R.id.usertile);
             viewHolder.button= (Button) rowView.findViewById(R.id.jobdescription);
-            viewHolder.button=(Button)rowView.findViewById(R.id.employer);
+            viewHolder.button2=(Button)rowView.findViewById(R.id.employer);
             rowView.setTag(viewHolder);
 
 
@@ -53,6 +54,7 @@ public class ListViewAdapterForFoundJobs extends ArrayAdapter<String> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
         holder.textview.setText(item_list[position]);
         holder.button.setText("Description");
+        holder.button2.setText("Employer");
 
 
 

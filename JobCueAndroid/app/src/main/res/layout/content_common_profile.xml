@@ -30,7 +30,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/facebookimage"
+                    android:id="@+id/profile_image"
                     android:layout_weight="0.4"
                     />
 
@@ -126,7 +126,7 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:orientation="vertical"
                     android:layout_marginTop="20dp"
                     >

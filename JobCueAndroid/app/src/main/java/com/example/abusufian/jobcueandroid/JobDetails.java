@@ -30,6 +30,7 @@ public class JobDetails extends AppCompatActivity {
     private static String [] name;
     private static String []userid;
     private static String []jobid;
+    private static String []InternalUserID;
 //    public static final String KEY_LASTNAME = "lastName";
 //    public static final String KEY_FIRSTNAME = "firstName";
 //    public static final String KEY_ID="id";
@@ -53,8 +54,9 @@ public class JobDetails extends AppCompatActivity {
 
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
+
          String []array=null;
-        String  []foundjobs=null;
+
 
         //Problem is here for foundJobs
 
@@ -83,6 +85,15 @@ public class JobDetails extends AppCompatActivity {
             update_job.setVisibility(View.VISIBLE);
             layout_request_job.setVisibility(View.VISIBLE);
             RequestForJob();
+
+        }
+
+        else if(flag.equalsIgnoreCase("found"))
+        {
+            jobapply.setVisibility(View.GONE);
+            remove_job.setVisibility(View.GONE);
+            update_job.setVisibility(View.GONE);
+            layout_request_job.setVisibility(View.GONE);
 
         }
         else
@@ -192,6 +203,7 @@ public class JobDetails extends AppCompatActivity {
                         name = new String[response.length()];
                        userid= new String[response.length()];
                        jobid=  new String[response.length()];
+                    InternalUserID=new String[response.length()];
 
                         for (int i = 0; i < name.length; i++) {
                             JSONObject jo = response.getJSONObject(i);
@@ -203,8 +215,9 @@ public class JobDetails extends AppCompatActivity {
                             String firstName = ob.getString("firstName");
                             String demo=lastName+firstName;
                             name[i]=demo;
-                            userid[i]=ob.getString("id");
+                            userid[i]=jo.getString("id");
                             jobid[i]=jo.getString("JobId");
+                            InternalUserID[i]=ob.getString("id");
 
                         }
 
@@ -249,12 +262,12 @@ public class JobDetails extends AppCompatActivity {
         ListView listView = (ListView) parentRow.getParent();
         final int position = listView.getPositionForView(parentRow);
 
-        String id=userid[position];
-        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
-
+        String id=InternalUserID[position];
+        String id_job=jobid[position];
 
         Intent intent = new Intent(this, UserProfileView.class);
         intent.putExtra("job", id);
+        intent.putExtra("Hello", id_job);
         startActivity(intent);
 
     }
@@ -268,8 +281,6 @@ public class JobDetails extends AppCompatActivity {
         final int position = listView.getPositionForView(parentRow);
         String user_id=userid[position];
         String job_id=jobid[position];
-//        Toast.makeText(getApplicationContext(),user_id , Toast.LENGTH_LONG).show();
-//        Toast.makeText(getApplicationContext(), job_id, Toast.LENGTH_LONG).show();
         boolean test=false;
         try {
             CheckStatusJob(job_id,user_id,test);
@@ -283,6 +294,8 @@ public class JobDetails extends AppCompatActivity {
     }
     public void check_accept(View view) throws UnsupportedEncodingException {
 
+        Toast.makeText(getApplicationContext(), "Hello Accept", Toast.LENGTH_LONG).show();
+
 
         View parentRow = (View) view.getParent();
 
@@ -290,10 +303,6 @@ public class JobDetails extends AppCompatActivity {
         final int position = listView.getPositionForView(parentRow);
         String user_id=userid[position];
         String job_id=jobid[position];
-//        Toast.makeText(getApplicationContext(),user_id , Toast.LENGTH_LONG).show();
-//        Toast.makeText(getApplicationContext(), job_id, Toast.LENGTH_LONG).show();
-
-
         boolean test=true;
         try {
             CheckStatusJob(job_id,user_id,test);
@@ -329,9 +338,8 @@ public class JobDetails extends AppCompatActivity {
         }
 
         AsyncHttpClient client = new AsyncHttpClient();
-
         String token = getToken("Token");
-      // Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
+
         Log.d("TokenShow",token);
 
         if(token != null) {
@@ -343,18 +351,19 @@ public class JobDetails extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "Token not fetched", Toast.LENGTH_SHORT).show();
         }
-        //client.addHeader("Authorization","Bearer "+ "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NoYW9uLmF1dGgwLmNvbS8iLCJzdWIiOiJ0d2l0dGVyfDMwMjY4NDM0NDMiLCJhdWQiOiJYRHZwYzV5UlcycWhUclJIV2NFMHEwMkZxM2tMSW5DZiIsImV4cCI6MTQ2NTM2MTQyMiwiaWF0IjoxNDYyNzMxNjc2fQ.tQTJWLlWpB0Ihmk46FxpfyAk_Az01xy2X_IVVnkBRc4" );
 
         ByteArrayEntity entity = new ByteArrayEntity(sendData.toString().getBytes("UTF-8"));
 
-        //Toast.makeText(getApplicationContext(),sendData.toString(),Toast.LENGTH_LONG).show();
 
-        client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/" + jobid + "/applications/" + userid, entity, "application/json", new JsonHttpResponseHandler() {
-       // client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/1/applications/3",entity,"application/json", new JsonHttpResponseHandler() {
+        Toast.makeText(getApplicationContext(),sendData.toString(),Toast.LENGTH_LONG).show();
+
+        client.put(getApplicationContext(), "http://jobcue.herokuapp.com/jobs/" + jobid + "/applications/" + userid, entity, "application/json", new JsonHttpResponseHandler() {
+           // client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/2/applications/3",entity,"application/json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject response) {
                 super.onSuccess(response);
 
+                Log.d("Kichuasena2",response.toString());
 
                 Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
             }
@@ -398,9 +407,9 @@ public class JobDetails extends AppCompatActivity {
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.addHeader("Authorization","Bearer "+ new_token );
-        Toast.makeText(JobDetails.this, id, Toast.LENGTH_LONG).show();
-        Toast.makeText(JobDetails.this, new_token, Toast.LENGTH_LONG).show();
+        client.addHeader("Authorization", "Bearer " + new_token);
+       // Toast.makeText(JobDetails.this, id, Toast.LENGTH_LONG).show();
+       // Toast.makeText(JobDetails.this, new_token, Toast.LENGTH_LONG).show();
 
 
         //client.addHeader("Authorization","Bearer "+ "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NoYW9uLmF1dGgwLmNvbS8iLCJzdWIiOiJ0d2l0dGVyfDMwMjY4NDM0NDMiLCJhdWQiOiJYRHZwYzV5UlcycWhUclJIV2NFMHEwMkZxM2tMSW5DZiIsImV4cCI6MTQ2NTM2MTQyMiwiaWF0IjoxNDYyNzMxNjc2fQ.tQTJWLlWpB0Ihmk46FxpfyAk_Az01xy2X_IVVnkBRc4" );

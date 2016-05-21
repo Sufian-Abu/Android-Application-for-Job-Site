@@ -33,13 +33,10 @@ public class Login extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             final Intent newIntent = new Intent(Login.this, CommonProfile.class);
-           // UserProfile profile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
+            UserProfile profile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
             Token token = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_TOKEN_PARAMETER);
 
-//            ImageView profileImageView = (ImageView) findViewById(R.id.profile_image);
-//        if (profile.getPictureURL() != null) {
-//            ImageLoader.getInstance().displayImage(profile.getPictureURL(), profileImageView);
-//        }
+
 
 
             String toAddToken =  token.getIdToken();
@@ -57,7 +54,7 @@ public class Login extends AppCompatActivity {
             }
 
 
-            //newIntent.putExtras(intent);
+            newIntent.putExtras(intent);
             startActivity(newIntent);
         }
     };
