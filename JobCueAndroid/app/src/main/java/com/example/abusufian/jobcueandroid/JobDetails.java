@@ -263,11 +263,11 @@ public class JobDetails extends AppCompatActivity {
         final int position = listView.getPositionForView(parentRow);
 
         String id=InternalUserID[position];
-        String id_job=jobid[position];
+        //String id_job=jobid[position];
 
         Intent intent = new Intent(this, UserProfileView.class);
         intent.putExtra("job", id);
-        intent.putExtra("Hello", id_job);
+        //intent.putExtra("Hello", id_job);
         startActivity(intent);
 
     }

@@ -57,7 +57,7 @@ public class UserProfileView extends AppCompatActivity {
         if(bundle != null)
         {
             id = bundle.get("job").toString();
-            id_job=bundle.get("Hello").toString();
+            //id_job=bundle.get("Hello").toString();
             Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
         }
         else
@@ -175,9 +175,9 @@ public class UserProfileView extends AppCompatActivity {
         JSONObject sendData = new JSONObject();
         try {
             sendData.put("UserId", userid);
-            sendData.put("rating", rate);
+            sendData.put("rating", 10);
             sendData.put("feedback", "Good");
-            sendData.put("JobId", id_job);
+            sendData.put("JobId", "2");
 
 
         } catch (JSONException e) {
@@ -207,7 +207,7 @@ public class UserProfileView extends AppCompatActivity {
         client.post(getApplicationContext(), "http://jobcue.herokuapp.com/users/" + userid + "/reviews", entity, "application/json", new JsonHttpResponseHandler() {
             // client.put(getApplicationContext(),"http://jobcue.herokuapp.com/jobs/6/applications/25",entity,"application/json", new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(JSONObject response) {
+            public void onSuccess(JSONArray response) {
                 super.onSuccess(response);
                 Log.d("Ratingjaena", response.toString());
 
